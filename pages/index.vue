@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<div>
-			<Logo />
+			<Player />
 			<h1 class="title">digital-music-friday</h1>
 			<div class="links">
 				<a
@@ -26,7 +26,11 @@
 </template>
 
 <script>
-export default {};
+import Player from '@/components/Player';
+
+export default {
+	components: { Player }
+};
 </script>
 
 <style>
