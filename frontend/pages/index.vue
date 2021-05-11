@@ -1,24 +1,14 @@
 <template>
 	<div class="container">
 		<div>
-			<Player />
 			<h1 class="title">digital-music-friday</h1>
 			<div class="links">
 				<a
-					href="https://nuxtjs.org/"
-					target="_blank"
+					href="http://localhost:8080/authorize"
 					rel="noopener noreferrer"
 					class="button--green"
 				>
-					Documentation
-				</a>
-				<a
-					href="https://github.com/nuxt/nuxt.js"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="button--grey"
-				>
-					GitHub
+					Login with Spotify
 				</a>
 			</div>
 		</div>
@@ -26,10 +16,15 @@
 </template>
 
 <script>
-import Player from '@/components/Player';
-
 export default {
-	components: { Player }
+	created() {
+		const spotifyAuthCode = this.$route.query.code;
+
+		if (spotifyAuthCode) {
+			this.$store.commit('user/setAuthCode', spotifyAuthCode);
+			this.$router.push('authorize');
+		}
+	}
 };
 </script>
 
