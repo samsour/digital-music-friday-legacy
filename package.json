@@ -2,7 +2,7 @@
 	"name": "digital-music-friday",
 	"license": "ISC",
 	"devDependencies": {
-		"@commitlint/cli": "^12.1.1",
+		"@commitlint/cli": "^12.1.4",
 		"@commitlint/config-conventional": "^12.1.1"
 	}
 }
