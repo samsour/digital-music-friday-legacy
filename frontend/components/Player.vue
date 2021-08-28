@@ -1,12 +1,27 @@
 <template>
 	<div>
-		<script src=""></script>
+		<h2>Player</h2>
+		<button v-if="connected" type="button" @click="disconnectPlayer">
+			Disconnect {{ deviceId }}
+		</button>
+		<button v-else type="button" @click="connectPlayer">Connect</button>
+		<button type="button" @click="fetchPlayerState">
+			Fetch player state
+		</button>
+		Volume:
+		<input
+			type="range"
+			min="0"
+			max="100"
+			@input="updateVolume"
+			v-model="volume"
+		/>
+		<button type="button" @click="play">Play</button>
+		{{ message }}
 	</div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
 	name: 'Player',
 	head() {
@@ -20,76 +35,73 @@ export default {
 		};
 	},
 	computed: {
-		authorizationCode() {
-			return this.$store.state.user.authorizationCode;
+		volumePercentage() {
+			return parseInt(this.volume) / 100;
+		},
+		accessToken() {
+			return this.$store.state.user.accessToken;
+		},
+		message() {
+			return this.$store.state.player.message;
+		},
+		player() {
+			return this.$store.state.player.player;
+		},
+		deviceId() {
+			return this.$store.state.player.deviceId;
+		},
+		connected() {
+			return this.$store.state.player.connected;
 		},
 	},
+	data: () => ({
+		playerName: 'Digital Music Friday Player',
+		volume: 50,
+		playerIsConnected: true,
+	}),
 	mounted() {
 		this.initializeWebPlayer();
 	},
 	methods: {
 		initializeWebPlayer() {
 			window.onSpotifyWebPlaybackSDKReady = () => {
-				const token = 'asdf';
-				const player = new window.Spotify.Player({
-					name: 'Digital Music Friday Player',
-					getOAuthToken: (callback) => {
-						// Run code to get a fresh access token
-						callback(token);
-					},
-					volume: 0.5,
+				this.$store.dispatch('player/init', {
+					name: this.playerName,
+					volume: this.volumePercentage,
 				});
 
-				// Error handling
-				player.addListener('initialization_error', ({ message }) => {
-					console.error(message);
-				});
-				player.addListener('authentication_error', ({ message }) => {
-					console.error(message);
-				});
-				player.addListener('account_error', ({ message }) => {
-					console.error(message);
-				});
-				player.addListener('playback_error', ({ message }) => {
-					console.error(message);
-				});
-
-				// Playback status updates
-				player.addListener('player_state_changed', (state) => {
-					console.log(state);
-				});
-
-				// Ready
-				player.addListener('ready', ({ device_id: deviceId }) => {
-					console.log('Ready with Device ID', deviceId);
-				});
-
-				// Not Ready
-				player.addListener('not_ready', ({ device_id: deviceId }) => {
-					console.log('Device ID has gone offline', deviceId);
-				});
+				this.$store.dispatch('player/registerEventListener');
 
 				// Connect to the player!
-				player.connect();
+				this.connectPlayer();
 			};
 		},
-		async authorize() {
-			try {
-				const response = await axios.get(
-					process.env.serviceUrl + '/authorize',
-					{
-						params: {
-							client_id: process.env.clientID,
-							response_type: 'token',
-							redirect_uri: 'http://localhost:3000/',
-							// state: '',// TODO: e.g., a hash of the session cookie used to authenticate the user-agent
-						},
-					},
-				);
-				console.log(response);
-			} catch (error) {
-				console.error(error);
-			}
+		connectPlayer() {
+			this.player.connect().then((success) => {
+				if (success) {
+					this.playerIsConnected = true;
+					console.log(
+						'The Web Playback SDK successfully connected to Spotify!',
+					);
+				}
+			});
+		},
+		disconnectPlayer() {
+			this.player.disconnect();
+			this.$store.commit('player/setConnected', false);
+		},
+		fetchPlayerState() {
+			this.$store.dispatch('player/fetchPlayerState');
+		},
+		updateVolume() {
+			this.player.setVolume(this.volumePercentage).then(() => {
+				console.log('Volume updated!');
+			});
+		},
+		play() {
+			this.player.resume().then(() => {
+				console.log('Resumed!');
+			});
 		},
 	},
 };

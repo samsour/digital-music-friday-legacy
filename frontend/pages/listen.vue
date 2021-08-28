@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<h1>Listen</h1>
+		<Player />
 		<input
 			v-model="value"
 			type="text"
@@ -23,8 +24,10 @@
 
 <script>
 import axios from 'axios';
+import Player from '../components/Player.vue';
 
 export default {
+	components: { Player },
 	// User needs to be logged in since this is a restricted page
 	middleware: 'authentication',
 	data: () => ({

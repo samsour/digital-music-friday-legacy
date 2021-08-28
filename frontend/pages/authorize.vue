@@ -6,8 +6,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
 	computed: {
 		authorizationCode() {
@@ -18,7 +16,11 @@ export default {
 		this.processAuthorizationCode();
 
 		if (this.authorizationCode) {
-			this.fetchAccessToken();
+			this.$store
+				.dispatch('user/fetchAccessToken', this.authorizationCode)
+				.then(() => {
+					this.$router.replace('/listen');
+				});
 		}
 	},
 	methods: {
@@ -26,24 +28,12 @@ export default {
 			const { code } = this.$route.query;
 
 			if (code) {
-				this.$store.commit('user/setAuthCode', code);
+				this.$store.commit('user/setAuthorizationCode', code);
 			} else {
 				console.error(
 					'processAuthorizationCode: No authorizationCode submitted.',
 				);
 			}
-		},
-		fetchAccessToken() {
-			axios
-				.post(`${process.env.apiUrl}/token`, {
-					authorizationCode: this.authorizationCode,
-				})
-				.then((response) => {
-					this.$router.replace('/listen');
-				})
-				.catch((error) => {
-					console.log(error);
-				});
 		},
 	},
 };

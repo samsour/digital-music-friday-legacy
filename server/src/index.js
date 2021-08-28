@@ -68,9 +68,12 @@ app.post('/token', function (req, res) {
 			// First retrieve an access token
 			spotifyApi.authorizationCodeGrant(authorizationCode).then(
 				function (data) {
+					const accessToken = data.body['access_token'];
+					const refreshToken = data.body['refresh_token'];
+
 					// Set the access token and refresh token
-					spotifyApi.setAccessToken(data.body['access_token']);
-					spotifyApi.setRefreshToken(data.body['refresh_token']);
+					spotifyApi.setAccessToken(accessToken);
+					spotifyApi.setRefreshToken(refreshToken);
 
 					// Save the amount of seconds until the access token expired
 					tokenExpirationEpoch =
@@ -83,16 +86,21 @@ app.post('/token', function (req, res) {
 							) +
 							' seconds!',
 					);
+					res.json({
+						accessToken,
+						refreshToken,
+						tokenExpirationEpoch,
+					});
 				},
 				function (err) {
 					console.log(
 						'Something went wrong when retrieving the access token!',
 						err.message,
 					);
+					res.sendStatus(200);
 				},
 			);
 		}
-		res.sendStatus(200);
 	} catch (error) {
 		res.sendStatus(400);
 	}
