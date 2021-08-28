@@ -24,7 +24,10 @@ server.listen(port, '0.0.0.0');
 console.log('Server listening on localhost:' + port); // eslint-disable-line no-console
 
 // Socket.io
+
+// Chat messages
 const messages = [];
+
 io.on('connection', (socket) => {
 	socket.on('last-messages', function (fn) {
 		fn(messages.slice(-50));

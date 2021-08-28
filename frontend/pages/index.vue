@@ -1,83 +1,21 @@
 <template>
 	<div class="container">
-		<div>
-			<h1 class="title">digital-music-friday</h1>
-			<div class="links">
-				<NuxtLink to="/listen">Listen now!</NuxtLink>
-			</div>
+		<h1 class="title">digital-music-friday</h1>
+		<div class="links">
+			<NuxtLink to="/listen">Listen now!</NuxtLink>
 		</div>
-		<ul class="pages">
-			<li class="chat page">
-				<div class="chatArea">
-					<ul ref="messages" class="messages">
-						<li
-							v-for="(msg, index) in messages"
-							:key="index"
-							class="message"
-						>
-							<i :title="msg.date">
-								{{ msg.date.split('T')[1].slice(0, -2) }} </i
-							>: {{ msg.text }}
-						</li>
-					</ul>
-				</div>
-				<input
-					v-model="message"
-					class="inputMessage"
-					type="text"
-					placeholder="Type here..."
-					@keyup.enter="sendMessage"
-				/>
-			</li>
-		</ul>
+		<Chat />
 	</div>
 </template>
 
 <script>
-import socket from '~/plugins/socket-io.js';
+import Chat from '../components/Chat.vue';
 
 export default {
 	name: 'Home',
-	asyncData() {
-		return new Promise((resolve) =>
-			socket.emit('last-messages', (messages) => resolve({ messages })),
-		);
-	},
-	data() {
-		return { message: '' };
-	},
+	components: { Chat },
 	head: {
-		title: 'Nuxt.js with Socket.io',
-	},
-	watch: {
-		messages: 'scrollToBottom',
-	},
-	beforeMount() {
-		socket.on('new-message', (message) => {
-			this.messages.push(message);
-		});
-	},
-	mounted() {
-		this.scrollToBottom();
-	},
-	methods: {
-		sendMessage() {
-			if (!this.message.trim()) {
-				return;
-			}
-			const message = {
-				date: new Date().toJSON(),
-				text: this.message.trim(),
-			};
-			this.messages.push(message);
-			this.message = '';
-			socket.emit('send-message', message);
-		},
-		scrollToBottom() {
-			this.$nextTick(() => {
-				this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
-			});
-		},
+		title: 'Spotify Music Friday',
 	},
 };
 </script>
@@ -113,12 +51,5 @@ export default {
 
 .links {
 	padding-top: 1rem;
-}
-
-.messages {
-	height: 100%;
-	margin: 0;
-	overflow-y: scroll;
-	padding: 0.75rem 1.5rem;
 }
 </style>
