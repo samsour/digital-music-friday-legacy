@@ -30,7 +30,7 @@ export const actions = {
 	fetchAccessToken({ state, commit }) {
 		return new Promise((resolve, reject) => {
 			axios
-				.post(`${process.env.apiUrl}/token`, {
+				.post(`${process.env.API_URL}/token`, {
 					authorizationCode: state.authorizationCode,
 				})
 				.then((response) => {

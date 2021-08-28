@@ -1,9 +1,11 @@
-export default {
+module.exports = {
 	// Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
 	ssr: false,
 
 	// Target: https://go.nuxtjs.dev/config-target
-	target: 'static',
+	target: 'server',
+
+	telemetry: false,
 
 	// Global page headers: https://go.nuxtjs.dev/config-head
 	head: {
@@ -45,12 +47,12 @@ export default {
 
 	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
+		['~/io'],
 		// https://go.nuxtjs.dev/axios
 		'@nuxtjs/axios',
 		// https://go.nuxtjs.dev/pwa
 		'@nuxtjs/pwa',
 	],
-
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {},
 
@@ -65,10 +67,11 @@ export default {
 	build: {},
 
 	env: {
-		baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-		apiUrl: process.env.API_URL || 'http://localhost:4000',
-		clientId: process.env.CLIENT_ID,
-		clientSecret: process.env.CLIENT_SECRET,
-		serviceUrl: process.env.SERVICE_URL,
+		BASE_URL: process.env.BASE_URL || 'http://localhost:3000',
+		API_URL: process.env.API_URL || 'http://localhost:4000',
+		CLIENT_ID: process.env.CLIENT_ID,
+		CLIENT_SECRET: process.env.CLIENT_SECRET,
+		SERVICE_URL: process.env.SERVICE_URL,
+		WEBSOCKET_URL: process.env.WEBSOCKET_URL || 'http://localhost:3000',
 	},
 };

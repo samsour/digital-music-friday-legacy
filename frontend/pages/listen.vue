@@ -38,7 +38,7 @@ export default {
 		search() {
 			console.log('Searching for Artist...');
 			axios
-				.get(`${process.env.apiUrl}/searchArtists?q=${this.value}`)
+				.get(`${process.env.API_URL}/searchArtists?q=${this.value}`)
 				.then((response) => {
 					console.log(response?.data);
 					const { items } = response.data?.artists ?? response.data;
