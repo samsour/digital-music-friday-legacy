@@ -28,6 +28,11 @@ export default {
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: true,
 
+	// Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
+	router: {
+		// middleware: ['authentication'],
+	},
+
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
 		// https://go.nuxtjs.dev/eslint
@@ -60,9 +65,10 @@ export default {
 	build: {},
 
 	env: {
-		clientID: process.env.CLIENT_ID,
+		baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+		apiUrl: process.env.API_URL || 'http://localhost:4000',
+		clientId: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET,
-		webAPIAccessToken: process.env.WEB_API_ACCESS_TOKEN,
 		serviceUrl: process.env.SERVICE_URL,
 	},
 };

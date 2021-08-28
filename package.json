@@ -1,6 +1,10 @@
 {
 	"name": "digital-music-friday",
 	"license": "ISC",
+	"scripts": {
+		"frontend": "cd ./frontend && yarn dev",
+		"server": "cd ./server && yarn dev"
+	},
 	"devDependencies": {
 		"@commitlint/cli": "^12.1.1",
 		"@commitlint/config-conventional": "^12.1.1"
