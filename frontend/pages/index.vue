@@ -3,13 +3,7 @@
 		<div>
 			<h1 class="title">digital-music-friday</h1>
 			<div class="links">
-				<a
-					href="http://localhost:8080/authorize"
-					rel="noopener noreferrer"
-					class="button--green"
-				>
-					Login with Spotify
-				</a>
+				<NuxtLink to="/listen">Listen now!</NuxtLink>
 			</div>
 		</div>
 	</div>
@@ -17,23 +11,11 @@
 
 <script>
 export default {
-	created() {
-		const spotifyAuthCode = this.$route.query.code;
-
-		if (spotifyAuthCode) {
-			this.$store.commit('user/setAuthCode', spotifyAuthCode);
-			this.$router.push('authorize');
-		}
-	}
+	name: 'Home',
 };
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
 .container {
 	margin: 0 auto;
 	min-height: 100vh;
@@ -49,20 +31,20 @@ export default {
 		sans-serif;
 	display: block;
 	font-weight: 300;
-	font-size: 100px;
+	font-size: 5rem;
 	color: #35495e;
-	letter-spacing: 1px;
+	letter-spacing: 0.125rem;
 }
 
 .subtitle {
 	font-weight: 300;
-	font-size: 42px;
+	font-size: 3rem;
 	color: #526488;
-	word-spacing: 5px;
-	padding-bottom: 15px;
+	word-spacing: 0.25rem;
+	padding-bottom: 1rem;
 }
 
 .links {
-	padding-top: 15px;
+	padding-top: 1rem;
 }
 </style>

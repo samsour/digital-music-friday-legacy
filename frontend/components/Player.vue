@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<script src="https://sdk.scdn.co/spotify-player.js"></script>
+		<script src=""></script>
 	</div>
 </template>
 
@@ -8,22 +8,36 @@
 import axios from 'axios';
 
 export default {
+	name: 'Player',
+	head() {
+		return {
+			script: [
+				{
+					src: 'https://sdk.scdn.co/spotify-player.js',
+					body: true,
+				},
+			],
+		};
+	},
+	computed: {
+		authorizationCode() {
+			return this.$store.state.user.authorizationCode;
+		},
+	},
 	mounted() {
 		this.initializeWebPlayer();
-	},
-	async fetch() {
-		// await this.authorize();
 	},
 	methods: {
 		initializeWebPlayer() {
 			window.onSpotifyWebPlaybackSDKReady = () => {
-				const token = process.env.webAPIAccessToken;
-				console.log(token);
+				const token = 'asdf';
 				const player = new window.Spotify.Player({
-					name: 'Web Playback SDK Quick Start Player',
-					getOAuthToken: (cb) => {
-						cb(token);
-					}
+					name: 'Digital Music Friday Player',
+					getOAuthToken: (callback) => {
+						// Run code to get a fresh access token
+						callback(token);
+					},
+					volume: 0.5,
 				});
 
 				// Error handling
@@ -67,16 +81,16 @@ export default {
 						params: {
 							client_id: process.env.clientID,
 							response_type: 'token',
-							redirect_uri: 'http://localhost:3000/'
+							redirect_uri: 'http://localhost:3000/',
 							// state: '',// TODO: e.g., a hash of the session cookie used to authenticate the user-agent
-						}
-					}
+						},
+					},
 				);
 				console.log(response);
 			} catch (error) {
 				console.error(error);
 			}
-		}
-	}
+		},
+	},
 };
 </script>
