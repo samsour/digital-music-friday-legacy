@@ -12,8 +12,8 @@ export default {
 	props: {
 		error: {
 			type: Object,
-			default: () => ({ message: 'Page not found', statusCode: 404 })
-		}
-	}
+			default: () => ({ message: 'Page not found', statusCode: 404 }),
+		},
+	},
 };
 </script>
