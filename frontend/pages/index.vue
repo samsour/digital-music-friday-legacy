@@ -4,16 +4,12 @@
 		<div class="links">
 			<NuxtLink to="/listen">Listen now!</NuxtLink>
 		</div>
-		<Chat />
 	</div>
 </template>
 
 <script>
-import Chat from '../components/Chat.vue';
-
 export default {
 	name: 'Home',
-	components: { Chat },
 	head: {
 		title: 'Spotify Music Friday',
 	},

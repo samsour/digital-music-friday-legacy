@@ -33,7 +33,10 @@ export default {
 		messages: [],
 	}),
 	fetch() {
-		socket.emit('last-messages', (messages) => (this.messages = messages));
+		socket.emit(
+			'fetch-last-messages',
+			(messages) => (this.messages = messages),
+		);
 	},
 	watch: {
 		messages: 'scrollToBottom',

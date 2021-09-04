@@ -52,4 +52,29 @@ export const actions = {
 				});
 		});
 	},
+	fetchAccountData({ state, commit }) {
+		return new Promise((resolve, reject) => {
+			axios
+				.post(`${process.env.API_URL}/getAccountData`, {
+					authorizationCode: state.authorizationCode,
+				})
+				.then((response) => {
+					const {
+						accessToken,
+						refreshToken,
+						tokenExpirationEpoch,
+					} = response.data;
+
+					commit('setAccessToken', {
+						accessToken,
+						refreshToken,
+						tokenExpirationEpoch,
+					});
+					resolve();
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+	},
 };

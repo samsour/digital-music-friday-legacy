@@ -1,0 +1,48 @@
+<template>
+	<div>
+		<h1>Listening to {{ roomId }}</h1>
+		<Player />
+		<Search />
+		<Chat />
+	</div>
+</template>
+
+<script>
+import Player from '~/components/Player.vue';
+import Chat from '~/components/Chat.vue';
+import Search from '~/components/Search.vue';
+import socket from '~/plugins/socket-io.js';
+
+export default {
+	components: { Player, Chat, Search },
+	// User needs to be logged in since this is a restricted page
+	middleware: 'authentication',
+	data: () => ({
+		currentSong: null,
+		queue: [],
+		users: [],
+	}),
+	fetch() {
+		socket.auth = { username: 'username' };
+		socket.connect();
+		socket.emit('join-room', this.roomId);
+
+		socket.on('connect_error', (err) => {
+			if (err.message === 'invalid username') {
+				this.usernameAlreadySelected = false;
+			}
+		});
+	},
+	computed: {
+		roomId() {
+			return this.$store.state.room.id;
+		},
+	},
+	watch: {
+		'$route.query': '$fetch',
+	},
+	destroyed() {
+		socket.off('connect_error');
+	},
+};
+</script>
