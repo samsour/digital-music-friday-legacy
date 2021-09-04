@@ -1,6 +1,10 @@
 <template>
 	<div>
 		<NuxtLink to="/">Home</NuxtLink>
+		<NuxtLink to="/settings">Settings</NuxtLink>
+		<NuxtLink :to="{ path: 'listen', params: { id: 'qwer' } }"
+			>Join room qwer</NuxtLink
+		>
 		<Nuxt />
 	</div>
 </template>
