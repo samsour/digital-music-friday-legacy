@@ -1,12 +1,32 @@
 <template>
 	<div>
 		<h1>Welcome</h1>
+		<input type="text" v-model="name" />
+		<nuxt-link :to="{ name: 'listen-id', params: { id: roomId } }"
+			>Join {{ roomId }}</nuxt-link
+		>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-	data: () => ({}),
+	middleware: 'authentication',
+	computed: {
+		...mapState('user', ['id', 'spotifyImages']),
+		name: {
+			set(name) {
+				this.$store.commit('user/SET_NAME', name);
+			},
+			get() {
+				return this.$store.state.user.name;
+			},
+		},
+		roomId() {
+			return this.$store.state.room.id;
+		},
+	},
 	created() {},
 	methods: {
 		continue() {

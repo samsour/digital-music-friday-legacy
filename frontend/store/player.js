@@ -12,13 +12,13 @@ export const mutations = {
 	setMessage(state, message) {
 		state.message = message;
 	},
-	setConnected(state, connected) {
+	SET_CONNECTED(state, connected) {
 		state.connected = connected;
 	},
-	setDeviceId(state, deviceId) {
+	SET_DEVICE_ID(state, deviceId) {
 		state.deviceId = deviceId;
 	},
-	setEventListener(state, { name, callback }) {
+	SET_EVENT_LISTENER(state, { name, callback }) {
 		state.player.addListener(name, (args) => callback(args));
 	},
 };
@@ -76,20 +76,20 @@ export const actions = {
 		// state.player.addListener('player_state_changed', (state) => {});
 
 		// Ready
-		commit('setEventListener', {
+		commit('SET_EVENT_LISTENER', {
 			name: 'ready',
 			callback: ({ device_id: deviceId }) => {
-				commit('setConnected', true);
-				commit('setDeviceId', deviceId);
+				commit('SET_CONNECTED', true);
+				commit('SET_DEVICE_ID', deviceId);
 			},
 		});
 
 		// Not Ready
-		commit('setEventListener', {
+		commit('SET_EVENT_LISTENER', {
 			name: 'not_ready',
 			callback: ({ device_id: deviceId }) => {
-				commit('setConnected', false);
-				commit('setDeviceId', deviceId);
+				commit('SET_CONNECTED', false);
+				commit('SET_DEVICE_ID', deviceId);
 				commit('setMessage', 'Device ID has gone offline');
 			},
 		});

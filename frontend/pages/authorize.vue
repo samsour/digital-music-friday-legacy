@@ -33,7 +33,8 @@ export default {
 	},
 	created() {
 		if (localStorage.roomId) {
-			this.$store.dispatch('room/setId', localStorage.roomId);
+			this.$store.dispatch('room/saveRoomId', localStorage.roomId);
+			// localStorage.roomId
 		}
 
 		this.processAuthorizationCode();
@@ -45,10 +46,7 @@ export default {
 			if (authorizationCode) {
 				this.$router.replace({ query: {} });
 				this.message = 'Processing your Spotify authorization code.';
-				this.$store.commit(
-					'user/setAuthorizationCode',
-					authorizationCode,
-				);
+				this.$store.commit('user/SET_AUTH_CODE', authorizationCode);
 
 				this.message = 'Fetching your Spotify access token.';
 				this.$store
@@ -57,8 +55,10 @@ export default {
 						this.isLoading = false;
 						this.message =
 							'You are now logged in with your Spotify Account.';
-						this.$store.dispatch('user/fetchtAccountData');
-						this.$router.push(`/welcome`);
+
+						this.$store
+							.dispatch('user/fetchSpotifyUser')
+							.then(() => this.$router.push(`/welcome`));
 					});
 			} else {
 				this.isLoading = false;

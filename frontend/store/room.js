@@ -12,7 +12,7 @@ export const mutations = {
 };
 
 export const actions = {
-	setId({ commit }, id) {
+	saveRoomId({ commit }, id) {
 		commit('SET_ID', id);
 		localStorage.removeItem('roomId');
 	},

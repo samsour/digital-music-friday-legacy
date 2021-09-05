@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { spotify } from '~/utils/request';
 
 export const state = () => ({
 	authorizationCode: null,
@@ -6,23 +7,36 @@ export const state = () => ({
 	accessToken: null,
 	refreshToken: null,
 	tokenExpirationEpoch: null,
+	id: '',
+	name: 'Spotify User',
+	hasSpotifyPremium: false,
+	spotifyName: '',
+	spotifyUrl: undefined,
+	spotifyImages: [],
+	spotifyFollowerCount: undefined,
 });
 
 export const mutations = {
-	setAuthorizationCode(state, code) {
+	SET_AUTH_CODE(state, code) {
 		state.authorizationCode = code;
 		state.isAuthenticated = true;
 	},
-	reset(state) {
-		state.isAuthenticated = false;
-		state.accessToken = null;
-		state.refreshToken = null;
-		state.tokenExpirationEpoch = null;
-	},
-	setAccessToken(state, { accessToken, refreshToken, tokenExpirationEpoch }) {
+	SET_TOKENS(state, { accessToken, refreshToken, tokenExpirationEpoch }) {
 		state.accessToken = accessToken;
 		state.refreshToken = refreshToken;
 		state.tokenExpirationEpoch = tokenExpirationEpoch;
+	},
+	SET_NAME(state, name) {
+		state.name = name;
+	},
+	SET_USER_DATA(state, data) {
+		state.id = data.id;
+		state.spotifyName = data.display_name;
+		state.name = data.display_name;
+		state.spotifyUrl = data.external_urls?.spotify;
+		state.spotifyImages = data.images;
+		state.hasSpotifyPremium = data.product === 'premium';
+		state.spotifyFollowerCount = data.followers?.total;
 	},
 };
 
@@ -40,7 +54,7 @@ export const actions = {
 						tokenExpirationEpoch,
 					} = response.data;
 
-					commit('setAccessToken', {
+					commit('SET_TOKENS', {
 						accessToken,
 						refreshToken,
 						tokenExpirationEpoch,
@@ -52,29 +66,14 @@ export const actions = {
 				});
 		});
 	},
-	fetchAccountData({ state, commit }) {
+	fetchSpotifyUser({ state, commit }) {
 		return new Promise((resolve, reject) => {
-			axios
-				.post(`${process.env.API_URL}/getAccountData`, {
-					authorizationCode: state.authorizationCode,
-				})
+			spotify('me', state.accessToken)
 				.then((response) => {
-					const {
-						accessToken,
-						refreshToken,
-						tokenExpirationEpoch,
-					} = response.data;
-
-					commit('setAccessToken', {
-						accessToken,
-						refreshToken,
-						tokenExpirationEpoch,
-					});
+					commit('SET_USER_DATA', response.data);
 					resolve();
 				})
-				.catch((error) => {
-					reject(error);
-				});
+				.catch((error) => reject(error));
 		});
 	},
 };

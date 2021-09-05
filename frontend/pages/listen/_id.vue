@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Player from '~/components/Player.vue';
 import Chat from '~/components/Chat.vue';
 import Search from '~/components/Search.vue';
@@ -23,7 +24,7 @@ export default {
 		users: [],
 	}),
 	fetch() {
-		socket.auth = { username: 'username' };
+		socket.auth = { username: this.name };
 		socket.connect();
 		socket.emit('join-room', this.roomId);
 
@@ -34,6 +35,7 @@ export default {
 		});
 	},
 	computed: {
+		...mapState('user', ['id', 'name']),
 		roomId() {
 			return this.$store.state.room.id;
 		},
