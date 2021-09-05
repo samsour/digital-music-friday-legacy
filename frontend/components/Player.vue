@@ -88,7 +88,7 @@ export default {
 		},
 		disconnectPlayer() {
 			this.player.disconnect();
-			this.$store.commit('player/setConnected', false);
+			this.$store.commit('player/SET_CONNECTED', false);
 		},
 		fetchPlayerState() {
 			this.$store.dispatch('player/fetchPlayerState');
