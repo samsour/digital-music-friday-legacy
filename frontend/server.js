@@ -39,9 +39,10 @@ const rooms = new Map();
 // TODO Refactor
 const messages = [];
 
-const newMessage = (message) => ({
-	date: new Date().toJSON(),
-	text: message.trim(),
+const newMessage = (text, date, author) => ({
+	text: text.trim(),
+	date: date ?? new Date().toJSON(),
+	author: author ?? 'Server',
 });
 
 io.on('connection', (socket) => {
@@ -52,7 +53,8 @@ io.on('connection', (socket) => {
 		callback(messages.slice(-50));
 	});
 
-	socket.on('send-message', (message) => {
+	socket.on('send-message', ({ date, text }) => {
+		const message = newMessage(text, date, socket.username);
 		messages.push(message);
 		socket.broadcast.emit('new-message', message);
 	});
@@ -81,7 +83,7 @@ const handleJoinRoom = (socket, roomId) => {
 
 	io.to(roomId).emit(
 		'new-message',
-		newMessage('New User has joined the room.'),
+		newMessage(`${socket.username} has joined the room.`),
 	);
-	console.log(`User ${socket.id} has joined ${roomId}`);
+	console.log(`User ${socket.username} has joined ${roomId}`);
 };

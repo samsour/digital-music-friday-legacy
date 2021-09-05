@@ -10,6 +10,9 @@
 					<i :title="message.date">
 						{{ message.date.split('T')[1].slice(0, -2) }}
 					</i>
+					<i :title="message.author">
+						{{ message.author }}
+					</i>
 					: {{ message.text }}
 				</li>
 			</ul>
@@ -32,6 +35,11 @@ export default {
 		messageInput: '',
 		messages: [],
 	}),
+	computed: {
+		name() {
+			return this.$store.state.user.name;
+		},
+	},
 	fetch() {
 		socket.emit(
 			'fetch-last-messages',
@@ -57,6 +65,7 @@ export default {
 			const message = {
 				date: new Date().toJSON(),
 				text: this.messageInput.trim(),
+				author: this.name,
 			};
 			this.messages.push(message);
 			this.messageInput = '';
