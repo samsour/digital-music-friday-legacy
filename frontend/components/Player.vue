@@ -24,6 +24,10 @@
 <script>
 export default {
 	name: 'Player',
+	data: () => ({
+		playerName: 'Digital Music Friday Player',
+		volume: 50,
+	}),
 	head() {
 		return {
 			script: [
@@ -54,11 +58,6 @@ export default {
 			return this.$store.state.player.connected;
 		},
 	},
-	data: () => ({
-		playerName: 'Digital Music Friday Player',
-		volume: 50,
-		playerIsConnected: true,
-	}),
 	mounted() {
 		this.initializeWebPlayer();
 	},
@@ -77,14 +76,7 @@ export default {
 			};
 		},
 		connectPlayer() {
-			this.player.connect().then((success) => {
-				if (success) {
-					this.playerIsConnected = true;
-					console.log(
-						'The Web Playback SDK successfully connected to Spotify!',
-					);
-				}
-			});
+			this.player.connect();
 		},
 		disconnectPlayer() {
 			this.player.disconnect();

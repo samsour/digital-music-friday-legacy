@@ -48,4 +48,11 @@ export default {
 .links {
 	padding-top: 1rem;
 }
+
+a {
+	text-decoration: underline;
+}
+button {
+	background: #ccc;
+}
 </style>

@@ -25,7 +25,7 @@ module.exports = {
 	css: [],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-	plugins: [],
+	plugins: ['~/plugins/axios'],
 
 	// Auto import components: https://go.nuxtjs.dev/config-components
 	components: true,
@@ -54,7 +54,9 @@ module.exports = {
 		'@nuxtjs/pwa',
 	],
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
-	axios: {},
+	axios: {
+		baseURL: process.env.SPOTIFY_API || 'https://api.spotify.com/v1', // Used as fallback if no runtime config is provided
+	},
 
 	// PWA module configuration: https://go.nuxtjs.dev/pwa
 	pwa: {
@@ -73,6 +75,6 @@ module.exports = {
 		CLIENT_SECRET: process.env.CLIENT_SECRET,
 		SERVICE_URL: process.env.SERVICE_URL,
 		WEBSOCKET_URL: process.env.WEBSOCKET_URL || 'http://localhost:3000',
-		SPOTIFY_API: process.env.SPOTIFY_API || 'https://api.spotify.com/v1/',
+		SPOTIFY_API: process.env.SPOTIFY_API || 'https://api.spotify.com/v1',
 	},
 };
