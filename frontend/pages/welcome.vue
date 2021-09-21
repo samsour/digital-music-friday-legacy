@@ -31,7 +31,6 @@ export default {
 	methods: {
 		continue() {
 			const room = this.roomId ?? this.getRandomString(6);
-			console.log(room);
 			this.$router.push(`/listen/${room}`);
 		},
 		getRandomString(length) {

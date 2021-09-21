@@ -10,11 +10,11 @@
 		</button>
 		Volume:
 		<input
+			v-model="volume"
 			type="range"
 			min="0"
 			max="100"
 			@input="updateVolume"
-			v-model="volume"
 		/>
 		<button type="button" @click="play">Play</button>
 		{{ message }}
