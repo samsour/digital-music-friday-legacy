@@ -11,9 +11,9 @@
 		Volume:
 		<input
 			v-model="volume"
+			type="range"
 			min="0"
 			max="100"
-			type="range"
 			@input="updateVolume"
 		/>
 		<button type="button" @click="play">Play</button>
@@ -27,7 +27,6 @@ export default {
 	data: () => ({
 		playerName: 'Digital Music Friday Player',
 		volume: 50,
-		playerIsConnected: true,
 	}),
 	head() {
 		return {
@@ -77,14 +76,7 @@ export default {
 			};
 		},
 		connectPlayer() {
-			this.player.connect().then((success) => {
-				if (success) {
-					this.playerIsConnected = true;
-					console.log(
-						'The Web Playback SDK successfully connected to Spotify!',
-					);
-				}
-			});
+			this.player.connect();
 		},
 		disconnectPlayer() {
 			this.player.disconnect();

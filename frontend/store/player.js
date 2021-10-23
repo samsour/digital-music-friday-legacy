@@ -48,16 +48,13 @@ export const actions = {
 				next_tracks: [nextTrack],
 			} = playerState.track_window;
 
-			console.log(currentTrack);
-			console.log(nextTrack);
-
 			commit(
 				'setMessage',
 				`Currently Playing ${currentTrack.name}. Playing Next: ${nextTrack.name}`,
 			);
 		});
 	},
-	registerEventListener({ state, commit }) {
+	registerEventListener({ state, commit, dispatch }) {
 		// // Error handling
 		// state.player.addListener('initialization_error', ({ message }) => {
 		// 	console.error(message);
@@ -81,6 +78,7 @@ export const actions = {
 			callback: ({ device_id: deviceId }) => {
 				commit('SET_CONNECTED', true);
 				commit('SET_DEVICE_ID', deviceId);
+				dispatch('activatePlayer');
 			},
 		});
 
@@ -92,6 +90,12 @@ export const actions = {
 				commit('SET_DEVICE_ID', deviceId);
 				commit('setMessage', 'Device ID has gone offline');
 			},
+		});
+	},
+	async activatePlayer({ state }) {
+		await this.$axios.$put(`me/player`, {
+			device_ids: [state.deviceId],
+			play: true,
 		});
 	},
 };

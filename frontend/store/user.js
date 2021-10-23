@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { spotify } from '~/utils/request';
 
 export const state = () => ({
 	authorizationCode: null,
@@ -66,14 +65,8 @@ export const actions = {
 				});
 		});
 	},
-	fetchSpotifyUser({ state, commit }) {
-		return new Promise((resolve, reject) => {
-			spotify('me', state.accessToken)
-				.then((response) => {
-					commit('SET_USER_DATA', response.data);
-					resolve();
-				})
-				.catch((error) => reject(error));
-		});
+	async fetchSpotifyUser({ commit }) {
+		const data = await this.$axios.$get(`/me`);
+		commit('SET_USER_DATA', data);
 	},
 };

@@ -34,7 +34,6 @@ export default {
 	created() {
 		if (localStorage.roomId) {
 			this.$store.dispatch('room/saveRoomId', localStorage.roomId);
-			// localStorage.roomId
 		}
 
 		this.processAuthorizationCode();
