@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div :class="{ 'is-detached': $route.name !== 'listen-id' }">
 		<h2>Player</h2>
 		<button v-if="connected" type="button" @click="disconnectPlayer">
 			Disconnect {{ deviceId }}
@@ -10,11 +10,11 @@
 		</button>
 		Volume:
 		<input
-			type="range"
+			v-model="volume"
 			min="0"
 			max="100"
+			type="range"
 			@input="updateVolume"
-			v-model="volume"
 		/>
 		<button type="button" @click="play">Play</button>
 		{{ message }}
@@ -24,6 +24,11 @@
 <script>
 export default {
 	name: 'Player',
+	data: () => ({
+		playerName: 'Digital Music Friday Player',
+		volume: 50,
+		playerIsConnected: true,
+	}),
 	head() {
 		return {
 			script: [
@@ -54,11 +59,6 @@ export default {
 			return this.$store.state.player.connected;
 		},
 	},
-	data: () => ({
-		playerName: 'Digital Music Friday Player',
-		volume: 50,
-		playerIsConnected: true,
-	}),
 	mounted() {
 		this.initializeWebPlayer();
 	},

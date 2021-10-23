@@ -73,6 +73,7 @@ module.exports = {
 		CLIENT_SECRET: process.env.CLIENT_SECRET,
 		SERVICE_URL: process.env.SERVICE_URL,
 		WEBSOCKET_URL: process.env.WEBSOCKET_URL || 'http://localhost:3000',
-		SPOTIFY_API: process.env.SPOTIFY_API || 'https://api.spotify.com/v1/',
+		SPOTIFY_API: process.env.SPOTIFY_API,
+		SPOTIFY_PLAYER_SDK_URL: process.env.SPOTIFY_PLAYER_SDK_URL,
 	},
 };
