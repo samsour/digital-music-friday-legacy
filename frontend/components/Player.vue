@@ -89,7 +89,6 @@ export default {
 			return parseInt(this.volume) / 100;
 		},
 		albumUrl() {
-			console.log(this.currentTrack);
 			return uriToUrl(this.currentTrack?.album?.uri);
 		},
 		albumCoverSrc() {
@@ -181,6 +180,7 @@ export default {
 .player__current-track {
 	display: flex;
 	align-items: center;
+	margin-right: 1rem;
 }
 
 .player__album {
@@ -193,6 +193,7 @@ export default {
 	border: 1px solid var(--color-theme-primary);
 	box-shadow: var(--box-shadow-primary);
 	transition: var(--box-shadow-primary--transition);
+	flex-shrink: 0;
 
 	&:hover {
 		box-shadow: var(--box-shadow-primary--hover);

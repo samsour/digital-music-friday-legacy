@@ -4,8 +4,18 @@
 		<NuxtLink to="/settings">Settings</NuxtLink>
 		<NuxtLink to="/listen">Join Random Room</NuxtLink>
 		<Nuxt />
+
+		<Player />
 	</div>
 </template>
+
+<script>
+import Player from '~/components/Player.vue';
+
+export default {
+	components: { Player },
+};
+</script>
 
 <style>
 html {

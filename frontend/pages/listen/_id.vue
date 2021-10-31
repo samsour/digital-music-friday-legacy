@@ -3,19 +3,17 @@
 		<h1>Listening to {{ roomId }}</h1>
 		<Search />
 		<Chat />
-		<Player />
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import Player from '~/components/Player.vue';
 import Chat from '~/components/Chat.vue';
 import Search from '~/components/Search.vue';
 import socket from '~/plugins/socket-io.js';
 
 export default {
-	components: { Player, Chat, Search },
+	components: { Chat, Search },
 	// User needs to be logged in since this is a restricted page
 	middleware: 'authentication',
 	data: () => ({
