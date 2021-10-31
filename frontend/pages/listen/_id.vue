@@ -1,9 +1,9 @@
 <template>
 	<div>
 		<h1>Listening to {{ roomId }}</h1>
-		<Player />
 		<Search />
 		<Chat />
+		<Player />
 	</div>
 </template>
 

@@ -17,6 +17,21 @@ export default {
 </script>
 
 <style>
+:root {
+	/** TODO: auto generate color values */
+	--spindle: #c9d9ee;
+	--ship-cove: #7f98bb;
+	--river-bed: #3f4a59;
+	--color-accent: var(--ship-cove);
+	--color-accent-primary: var(--river-bed);
+	--color-accent-secondary: var(--spindle);
+	--color-theme-background-primary: #fff;
+	--color-theme-background-secondary: #f7f7f7;
+	--color-theme-static-grey: #2a2a2a;
+	--color-theme-error: #e08888;
+	--spacing-sides: 2rem;
+}
+
 .container {
 	margin: 0 auto;
 	min-height: 100vh;

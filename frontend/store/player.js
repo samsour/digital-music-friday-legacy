@@ -3,6 +3,17 @@ export const state = () => ({
 	message: '',
 	connected: false,
 	deviceId: null,
+	loading: false,
+	paused: false,
+	duration: 0,
+	timestamp: 0,
+	position: 0,
+	shuffle: false,
+	currentTrack: null,
+	nextTracks: [],
+	previousTracks: [],
+	info: '',
+	uri: '',
 });
 
 export const mutations = {
@@ -17,6 +28,31 @@ export const mutations = {
 	},
 	SET_DEVICE_ID(state, deviceId) {
 		state.deviceId = deviceId;
+	},
+	SET_PLAYER_STATE(
+		state,
+		{
+			paused,
+			duration,
+			timestamp,
+			position,
+			shuffle,
+			track_window: trackWindow,
+			info,
+			uri,
+		},
+	) {
+		state.paused = paused;
+		state.duration = duration;
+		state.timestamp = timestamp;
+		state.position = position;
+		state.shuffle = shuffle;
+		state.shuffle = shuffle;
+		state.currentTrack = trackWindow.current_track;
+		state.nextTracks = trackWindow.next_tracks;
+		state.previousTracks = trackWindow.previous_tracks;
+		state.info = info;
+		state.uri = uri;
 	},
 	SET_EVENT_LISTENER(state, { name, callback }) {
 		state.player.addListener(name, (args) => callback(args));
@@ -38,20 +74,7 @@ export const actions = {
 	},
 	async fetchPlayerState({ state, commit }) {
 		await state.player.getCurrentState().then((playerState) => {
-			if (!playerState) {
-				commit('setMessage', 'There is no music playing.');
-				return;
-			}
-
-			const {
-				current_track: currentTrack,
-				next_tracks: [nextTrack],
-			} = playerState.track_window;
-
-			commit(
-				'setMessage',
-				`Currently Playing ${currentTrack.name}. Playing Next: ${nextTrack.name}`,
-			);
+			commit('SET_PLAYER_STATE', playerState);
 		});
 	},
 	registerEventListener({ state, commit, dispatch }) {
@@ -68,9 +91,13 @@ export const actions = {
 		// state.player.addListener('playback_error', ({ message }) => {
 		// 	console.error('playback error', message);
 		// });
-
-		// // Playback status updates
-		// state.player.addListener('player_state_changed', (state) => {});
+		// Ready
+		commit('SET_EVENT_LISTENER', {
+			name: 'player_state_changed',
+			callback: (playerState) => {
+				commit('SET_PLAYER_STATE', playerState);
+			},
+		});
 
 		// Ready
 		commit('SET_EVENT_LISTENER', {
