@@ -175,6 +175,11 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 var(--spacing-sides);
+
+	@include breakpoint(m) {
+		border-radius: var(--player-border-radius);
+		bottom: spacing(s);
+	}
 }
 
 .player__current-track {

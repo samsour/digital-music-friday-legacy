@@ -1,0 +1,30 @@
+$breakpoints: (
+	'default': '',
+	'xs': 480px,
+	's': 667px,
+	'm': 1024px,
+	'l': 1280px,
+	'xl': 1680px,
+);
+
+@mixin breakpoint($breakpoint, $direction: min) {
+	// Es wird gecheckt ob der Wert in der Sass Map vorhanden ist
+	@if map-has-key($breakpoints, $breakpoint) {
+		// Ausgabe
+		@media (#{$direction}-width: #{map-get($breakpoints, $breakpoint)}) {
+			@content;
+		}
+	}
+}
+
+$spacings: (
+	'xs': 10px,
+	's': 16px,
+	'm': 30px,
+	'l': 60px,
+	'xl': 160px,
+);
+
+@function spacing($size) {
+	@return map-get($spacings, $size);
+}

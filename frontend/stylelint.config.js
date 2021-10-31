@@ -6,7 +6,14 @@ module.exports = {
 		'at-rule-no-unknown': [
 			true,
 			{
-				ignoreAtRules: ['extends', 'tailwind'],
+				ignoreAtRules: [
+					'function',
+					'if',
+					'mixin',
+					'include',
+					'use',
+					'return',
+				],
 			},
 		],
 		'block-no-empty': null,

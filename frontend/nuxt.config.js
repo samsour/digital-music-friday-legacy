@@ -22,7 +22,7 @@ module.exports = {
 	},
 
 	// Global CSS: https://go.nuxtjs.dev/config-css
-	css: [],
+	css: ['~/assets/scss/main.scss'],
 
 	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 	plugins: ['~/plugins/axios'],
@@ -37,6 +37,7 @@ module.exports = {
 
 	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
 	buildModules: [
+		'@nuxtjs/style-resources',
 		// https://go.nuxtjs.dev/eslint
 		'@nuxtjs/eslint-module',
 		// https://go.nuxtjs.dev/stylelint
@@ -51,6 +52,11 @@ module.exports = {
 		// https://go.nuxtjs.dev/pwa
 		'@nuxtjs/pwa',
 	],
+
+	styleResources: {
+		scss: ['~assets/scss/_mixins.scss'],
+	},
+
 	// Axios module configuration: https://go.nuxtjs.dev/config-axios
 	axios: {
 		baseURL: process.env.SPOTIFY_API || 'https://api.spotify.com/v1', // Used as fallback if no runtime config is provided
