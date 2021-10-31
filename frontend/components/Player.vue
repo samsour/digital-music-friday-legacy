@@ -13,17 +13,32 @@
 			Fetch player state
 		</button> -->
 		<div class="player__current-track">
-			<div class="player__album">
-				<img class="player__album-image" :src="albumCoverSrc" />
-				{{ albumCoverImages }}
-			</div>
+			<a
+				:href="albumUrl"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="player__album"
+			>
+				<img
+					class="player__album-image"
+					:alt="songName"
+					:title="songName"
+					:src="albumCoverSrc"
+				/>
+			</a>
 
 			<div class="player__track-info">
 				<span class="player__track-name">{{ songName }}</span>
 				<div class="player__track-artists">
-					<span v-for="artist in songArtists" :key="artist">
-						{{ artist.name }}
-					</span>
+					<a
+						v-for="artist in songArtists"
+						:key="artist.name"
+						class="player__track-artist"
+						:href="uriToUrl(artist.uri)"
+						target="_blank"
+						rel="noopener noreferrer"
+						>{{ artist.name }}</a
+					>
 				</div>
 			</div>
 		</div>
@@ -35,16 +50,26 @@
 			max="100"
 			@input="updateVolume"
 		/> -->
-		<button v-if="paused" type="button" @click="play">Play</button>
-		<button v-else type="button" @click="pause">Pause</button>
+		<custom-button v-if="paused" type="button" @click="play"
+			><Play
+		/></custom-button>
+		<custom-button v-else type="button" @click="pause"
+			><Pause
+		/></custom-button>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { uriToUrl } from '../utils/spotify';
+
+import CustomButton from './CustomButton.vue';
+import Play from './icons/Play.vue';
+import Pause from './icons/Pause.vue';
 
 export default {
 	name: 'Player',
+	components: { CustomButton, Play, Pause },
 	data: () => ({
 		playerName: 'Digital Music Friday Player',
 		volume: 50,
@@ -62,6 +87,10 @@ export default {
 	computed: {
 		volumePercentage() {
 			return parseInt(this.volume) / 100;
+		},
+		albumUrl() {
+			console.log(this.currentTrack);
+			return uriToUrl(this.currentTrack?.album?.uri);
 		},
 		albumCoverSrc() {
 			return this.currentTrack?.album?.images[0]?.url;
@@ -123,13 +152,17 @@ export default {
 				console.log('Paused!');
 			});
 		},
+		uriToUrl(uri) {
+			return uriToUrl(uri);
+		},
 	},
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .player {
-	--player-height: 5em;
+	--player-height: 90px;
 	--player-border-radius: calc(var(--player-height) / 2);
+	--album-size: 55px;
 
 	position: fixed;
 	bottom: 0;
@@ -141,20 +174,52 @@ export default {
 	background: var(--color-accent-secondary);
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	padding: 0 var(--spacing-sides);
 }
 
 .player__current-track {
 	display: flex;
+	align-items: center;
 }
 
-.player__track-info {
+.player__album {
+	display: block;
+	position: relative;
+	margin-right: 1rem;
+	height: var(--album-size);
+	border-radius: 50%;
+	overflow: hidden;
+	border: 1px solid var(--color-theme-primary);
+	box-shadow: var(--box-shadow-primary);
+	transition: var(--box-shadow-primary--transition);
+
+	&:hover {
+		box-shadow: var(--box-shadow-primary--hover);
+	}
 }
 
 .player__album-image {
-	--image-size: 3.5rem;
+	width: var(--album-size);
+	height: var(--album-size);
+}
 
-	width: var(--image-size);
-	height: var(--image-size);
+.player__track-artist {
+	color: var(--color-accent);
+	font-size: 13px;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+		color: var(--color-accent-primary);
+	}
+
+	&:not(:last-child) {
+		margin-right: 0.5em;
+
+		&::after {
+			content: ',';
+		}
+	}
 }
 </style>

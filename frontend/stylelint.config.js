@@ -10,6 +10,6 @@ module.exports = {
 			},
 		],
 		'block-no-empty': null,
-		'unit-allowed-list': ['em', 'rem', 's', 'vh', 'vw', '%'],
+		'unit-allowed-list': ['px', 'em', 'rem', 's', 'vh', 'vw', '%'],
 	},
 };

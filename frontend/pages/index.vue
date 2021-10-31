@@ -17,6 +17,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
 :root {
 	/** TODO: auto generate color values */
 	--spindle: #c9d9ee;
@@ -25,49 +27,37 @@ export default {
 	--color-accent: var(--ship-cove);
 	--color-accent-primary: var(--river-bed);
 	--color-accent-secondary: var(--spindle);
-	--color-theme-background-primary: #fff;
-	--color-theme-background-secondary: #f7f7f7;
+	--color-theme-primary: #fff;
+	--color-theme-secondary: #f7f7f7;
 	--color-theme-static-grey: #2a2a2a;
 	--color-theme-error: #e08888;
 	--spacing-sides: 2rem;
+	--font-primary: 'Nunito', sans-serif;
+	--box-shadow-primary: 0 10px 10px rgba(0, 0, 0, 0.1);
+	--box-shadow-primary--hover: 0 0 10px rgba(0, 0, 0, 0.1);
+	--box-shadow-primary--transition: 0.15s all ease-in-out;
+	--box-padding-primary: 1rem;
+	--border-radius-primary: 1rem;
 }
 
-.container {
-	margin: 0 auto;
-	min-height: 100vh;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
+@media (prefers-color-scheme: dark) {
+	:root {
+		/** TODO: auto generate color values */
+		--color-accent: var(--ship-cove);
+		--color-accent-primary: var(--spindle);
+		--color-accent-secondary: var(--river-bed);
+		--color-theme-primary: #32383e;
+		--color-theme-secondary: #1f2021;
+		--color-theme-static-grey: #2a2a2a;
+		--color-theme-error: #e08888;
+	}
 }
 
-.title {
-	font-family: 'Quicksand', 'Source Sans Pro', -apple-system,
-		BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-		sans-serif;
-	display: block;
-	font-weight: 300;
-	font-size: 5rem;
-	color: #35495e;
-	letter-spacing: 0.125rem;
-}
-
-.subtitle {
-	font-weight: 300;
-	font-size: 3rem;
-	color: #526488;
-	word-spacing: 0.25rem;
-	padding-bottom: 1rem;
-}
-
-.links {
-	padding-top: 1rem;
-}
-
-a {
-	text-decoration: underline;
-}
-button {
-	background: #ccc;
+body {
+	font-family: var(--font-primary);
+	font-weight: 600;
+	letter-spacing: -0.35px;
+	color: var(--color-accent-primary);
+	background: var(--color-theme-secondary);
 }
 </style>
