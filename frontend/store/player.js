@@ -1,3 +1,5 @@
+import { uriToUrl } from '../utils/spotify';
+
 export const state = () => ({
 	player: null,
 	message: '',
@@ -15,6 +17,24 @@ export const state = () => ({
 	info: '',
 	uri: '',
 });
+
+export const getters = {
+	songName: (state) => {
+		return state.currentTrack?.name;
+	},
+	songArtists: (state) => {
+		return state.currentTrack?.artists.map((artist) => {
+			artist.url = uriToUrl(artist.uri);
+			return artist;
+		});
+	},
+	albumCover: (state) => {
+		return state.currentTrack?.album?.images[0]?.url;
+	},
+	albumUrl: (state) => {
+		return uriToUrl(state.currentTrack?.album?.uri);
+	},
+};
 
 export const mutations = {
 	setPlayer(state, player) {

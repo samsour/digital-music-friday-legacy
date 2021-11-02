@@ -23,7 +23,7 @@
 					class="player__album-image"
 					:alt="songName"
 					:title="songName"
-					:src="albumCoverSrc"
+					:src="albumCover"
 				/>
 			</a>
 
@@ -34,7 +34,7 @@
 						v-for="artist in songArtists"
 						:key="artist.name"
 						class="player__track-artist"
-						:href="uriToUrl(artist.uri)"
+						:href="artist.url"
 						target="_blank"
 						rel="noopener noreferrer"
 						>{{ artist.name }}</a
@@ -60,8 +60,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { uriToUrl } from '../utils/spotify';
+import { mapState, mapGetters } from 'vuex';
 
 import CustomButton from './CustomButton.vue';
 import Play from './icons/Play.vue';
@@ -88,19 +87,13 @@ export default {
 		volumePercentage() {
 			return parseInt(this.volume) / 100;
 		},
-		albumUrl() {
-			return uriToUrl(this.currentTrack?.album?.uri);
-		},
-		albumCoverSrc() {
-			return this.currentTrack?.album?.images[0]?.url;
-		},
-		songName() {
-			return this.currentTrack?.name;
-		},
-		songArtists() {
-			return this.currentTrack?.artists;
-		},
 		...mapState('user', ['accessToken']),
+		...mapGetters('player', [
+			'albumCover',
+			'songName',
+			'songArtists',
+			'albumUrl',
+		]),
 		...mapState('player', [
 			'player',
 			'deviceId',
@@ -150,9 +143,6 @@ export default {
 			this.player.pause().then(() => {
 				console.log('Paused!');
 			});
-		},
-		uriToUrl(uri) {
-			return uriToUrl(uri);
 		},
 	},
 };
