@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const state = () => ({
-	authorizationCode: null,
 	isAuthenticated: false,
 	accessToken: null,
 	refreshToken: null,
@@ -16,10 +15,6 @@ export const state = () => ({
 });
 
 export const mutations = {
-	SET_AUTH_CODE(state, code) {
-		state.authorizationCode = code;
-		state.isAuthenticated = true;
-	},
 	SET_TOKENS(state, { accessToken, refreshToken, tokenExpirationEpoch }) {
 		state.accessToken = accessToken;
 		state.refreshToken = refreshToken;
