@@ -42,11 +42,8 @@ export const actions = {
 					authorizationCode: state.authorizationCode,
 				})
 				.then((response) => {
-					const {
-						accessToken,
-						refreshToken,
-						tokenExpirationEpoch,
-					} = response.data;
+					const { accessToken, refreshToken, tokenExpirationEpoch } =
+						response.data;
 
 					commit('SET_TOKENS', {
 						accessToken,

@@ -4,6 +4,9 @@
 		<div class="links">
 			<NuxtLink to="/listen">Listen now!</NuxtLink>
 		</div>
+		<p>Feature 1 blabla</p>
+		<p>Feature 2 blabla</p>
+		<p>Feature 3 blabla</p>
 	</div>
 </template>
 

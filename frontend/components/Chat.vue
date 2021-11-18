@@ -35,16 +35,16 @@ export default {
 		messageInput: '',
 		messages: [],
 	}),
-	computed: {
-		name() {
-			return this.$store.state.user.name;
-		},
-	},
 	fetch() {
 		socket.emit(
 			'fetch-last-messages',
 			(messages) => (this.messages = messages),
 		);
+	},
+	computed: {
+		name() {
+			return this.$store.state.user.name;
+		},
 	},
 	watch: {
 		messages: 'scrollToBottom',
@@ -73,7 +73,8 @@ export default {
 		},
 		scrollToBottom() {
 			this.$nextTick(() => {
-				this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+				this.$refs.messages.scrollTop =
+					this.$refs.messages.scrollHeight;
 			});
 		},
 	},
