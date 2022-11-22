@@ -6,7 +6,7 @@
 		"server": "cd ./server && yarn dev"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^15.0.0",
+		"@commitlint/cli": "^17.3.0",
 		"@commitlint/config-conventional": "^15.0.0"
 	},
 	"dependencies": {}
